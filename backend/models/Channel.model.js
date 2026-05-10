@@ -6,6 +6,7 @@ const channelSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Channel name is required'],
       trim: true,
+      maxlength: [100, 'Channel name cannot exceed 100 characters'],
     },
     handle: {
       type: String,
