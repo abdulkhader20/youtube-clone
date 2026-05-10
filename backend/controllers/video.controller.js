@@ -39,7 +39,8 @@ export const getAllVideos = async (req, res) => {
  */
 export const getVideoById = async (req, res) => {
   try {
-    const video = await Video.findByIdAndUpdate(
+    // Increment view count on video fetch
+  const video = await Video.findByIdAndUpdate(
       req.params.id,
       { $inc: { views: 1 } }, // increment views on each fetch
       { new: true }
