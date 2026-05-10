@@ -31,8 +31,8 @@ export const addComment = async (req, res) => {
   }
 
   try {
-    // Verify video exists
-    const video = await Video.findById(req.params.videoId);
+  // Verify video exists before adding comment
+  const video = await Video.findById(req.params.videoId);
     if (!video) {
       return res.status(404).json({ message: 'Video not found' });
     }
