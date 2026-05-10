@@ -40,7 +40,6 @@ function Channel() {
     }
     fetchMyChannel()
   }, [user])
-
   const fetchMyChannel = async () => {
     try {
       setLoading(true)
