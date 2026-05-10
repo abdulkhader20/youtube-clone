@@ -6,6 +6,7 @@ const videoSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Video title is required'],
       trim: true,
+      maxlength: [200, 'Title cannot exceed 200 characters'],
     },
     description: {
       type: String,
