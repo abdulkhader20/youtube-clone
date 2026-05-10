@@ -19,7 +19,7 @@ export const createChannel = async (req, res) => {
     // Check if handle is already taken
     const existing = await Channel.findOne({ handle });
     if (existing) {
-      return res.status(400).json({ message: 'Channel handle already taken' });
+      return res.status(400).json({ message: 'Channel handle already taken. Try a different one.' });
     }
 
     const channel = await Channel.create({
