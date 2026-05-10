@@ -29,6 +29,7 @@ function Home() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [searchParams] = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
 
