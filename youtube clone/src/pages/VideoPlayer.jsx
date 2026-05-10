@@ -15,6 +15,7 @@ function VideoPlayer() {
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState('')
   const [commentError, setCommentError] = useState('')
+  const [commentSuccess, setCommentSuccess] = useState('')
 
   // Track like/dislike counts AND whether current user has liked/disliked
   const [likes, setLikes]         = useState(0)
