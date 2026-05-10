@@ -20,9 +20,10 @@ function Channel() {
   const [videoForm, setVideoForm] = useState({
     title: '', description: '', videoUrl: '', thumbnailUrl: '', category: 'Web Development'
   })
-  const [videoFile, setVideoFile] = useState(null)       // actual video file
-  const [thumbFile, setThumbFile] = useState(null)       // actual thumbnail file
+  const [videoFile, setVideoFile] = useState(null)
+  const [thumbFile, setThumbFile] = useState(null)
   const [uploadProgress, setUploadProgress] = useState('')
+  const [videoFormError, setVideoFormError] = useState('')
 
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
