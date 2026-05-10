@@ -11,10 +11,15 @@ export function AuthProvider({ children }) {
   // On app load, check if user was already logged in (saved in localStorage)
   useEffect(() => {
     const savedToken = localStorage.getItem('token')
-    const savedUser = localStorage.getItem('user')
+    const savedUser  = localStorage.getItem('user')
     if (savedToken && savedUser) {
-      setToken(savedToken)
-      setUser(JSON.parse(savedUser))
+      try {
+        setToken(savedToken)
+        setUser(JSON.parse(savedUser))
+      } catch {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+      }
     }
   }, [])
 
