@@ -43,7 +43,7 @@ app.use('/api/upload', uploadRoutes);
 
 // Health check
 app.get('/', (req, res) => {
-  res.json({ message: 'YouTube Clone API is running' });
+  res.json({ message: 'YouTube Clone API is running', version: '1.0.0' });
 });
 
 // Connect to MongoDB and start server
