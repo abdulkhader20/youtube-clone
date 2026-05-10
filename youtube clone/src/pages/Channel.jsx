@@ -29,7 +29,8 @@ function Channel() {
 
   const categories = [
     'Web Development', 'JavaScript', 'Data Structures',
-    'Server', 'Music', 'Information Technology', 'Gaming', 'Movies', 'News', 'Sports'
+    'Server', 'Music', 'Information Technology',
+    'Gaming', 'Movies', 'News', 'Sports', 'Live'
   ]
 
   // Redirect to login if not logged in
