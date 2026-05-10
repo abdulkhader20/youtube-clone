@@ -34,6 +34,12 @@ app.use(express.json());
 // e.g. http://localhost:5000/uploads/videos/video-123.mp4
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!', error: err.message });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes);
