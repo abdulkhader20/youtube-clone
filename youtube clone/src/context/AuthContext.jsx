@@ -27,7 +27,6 @@ export function AuthProvider({ children }) {
   const login = (userData, jwtToken) => {
     setUser(userData)
     setToken(jwtToken)
-    // Save to localStorage so user stays logged in after page refresh
     localStorage.setItem('token', jwtToken)
     localStorage.setItem('user', JSON.stringify(userData))
   }
@@ -38,6 +37,7 @@ export function AuthProvider({ children }) {
     setToken(null)
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    localStorage.removeItem('theme')
   }
 
   return (
