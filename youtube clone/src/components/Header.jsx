@@ -7,6 +7,7 @@ import YouTubeLogo from './YouTubeLogo'
 function Header({ onMenuClick }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const navigate = useNavigate()
   const { user, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
