@@ -5,7 +5,8 @@ import VideoCard from '../components/VideoCard'
 
 const categories = [
   'All', 'Web Development', 'JavaScript',
-  'Data Structures', 'Server', 'Music', 'Information Technology'
+  'Data Structures', 'Server', 'Music',
+  'Information Technology', 'Gaming', 'Live', 'Sports'
 ]
 
 // Skeleton placeholder while loading
