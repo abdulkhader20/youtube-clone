@@ -4,15 +4,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dns from 'dns';
 
 dotenv.config();
 
-// Fix DNS only in local development (not on Render/production)
-if (process.env.NODE_ENV !== 'production') {
-  const dns = await import('dns');
-  dns.default.setDefaultResultOrder('ipv4first');
-  dns.default.setServers(['8.8.8.8', '8.8.4.4']);
-}
+// Force Google DNS for MongoDB SRV resolution (works on both local and Render)
+dns.setDefaultResultOrder('ipv4first');
+dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 
 // Route imports
 import authRoutes from './routes/auth.routes.js';
@@ -25,7 +23,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// CORS — allow Vercel frontend
+// CORS
 app.use(cors({
   origin: process.env.FRONTEND_URL || '*',
   credentials: true,
@@ -57,7 +55,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 })
+  .connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 15000 })
   .then(() => {
     console.log('✅ MongoDB connected');
     app.listen(PORT, () => {
