@@ -4,13 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dns from 'dns';
 
 dotenv.config();
-
-// Force Google DNS for MongoDB SRV resolution (works on both local and Render)
-dns.setDefaultResultOrder('ipv4first');
-dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 
 // Route imports
 import authRoutes from './routes/auth.routes.js';
@@ -55,7 +50,10 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 15000 })
+  .connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 15000,
+    family: 4, // Force IPv4
+  })
   .then(() => {
     console.log('✅ MongoDB connected');
     app.listen(PORT, () => {
