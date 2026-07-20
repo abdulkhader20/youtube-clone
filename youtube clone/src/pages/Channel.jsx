@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
+import API_URL from '../config/api'
 
 function Channel() {
   const { user, token } = useAuth()
@@ -45,7 +46,7 @@ function Channel() {
   const fetchMyChannel = async () => {
     try {
       setLoading(true)
-      const res = await axios.get('http://localhost:5000/api/channels/my', {
+      const res = await axios.get(`${API_URL}/api/channels/my`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setChannel(res.data)
@@ -68,7 +69,7 @@ function Channel() {
     }
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/channels',
+        `${API_URL}/api/channels`,
         channelForm,
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -99,7 +100,7 @@ function Channel() {
         setUploadProgress('Uploading video file...')
         const formData = new FormData()
         formData.append('video', videoFile)
-        const res = await axios.post('http://localhost:5000/api/upload/video', formData, {
+        const res = await axios.post(`${API_URL}/api/upload/video`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
@@ -113,7 +114,7 @@ function Channel() {
         setUploadProgress('Uploading thumbnail...')
         const formData = new FormData()
         formData.append('thumbnail', thumbFile)
-        const res = await axios.post('http://localhost:5000/api/upload/thumbnail', formData, {
+        const res = await axios.post(`${API_URL}/api/upload/thumbnail`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
@@ -124,7 +125,7 @@ function Channel() {
 
       setUploadProgress('Saving video...')
       const res = await axios.post(
-        'http://localhost:5000/api/videos',
+        `${API_URL}/api/videos`,
         { ...videoForm, videoUrl: finalVideoUrl, thumbnailUrl: finalThumbUrl, channelId: channel._id },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -148,7 +149,7 @@ function Channel() {
     setError('')
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/videos/${editingVideo._id}`,
+        `${API_URL}/api/videos/${editingVideo._id}`,
         {
           title: editingVideo.title,
           description: editingVideo.description,
@@ -175,7 +176,7 @@ function Channel() {
     if (!window.confirm('Are you sure you want to delete this video?')) return
     try {
       await axios.delete(
-        `http://localhost:5000/api/videos/${videoId}`,
+        `${API_URL}/api/videos/${videoId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       setChannel(prev => ({

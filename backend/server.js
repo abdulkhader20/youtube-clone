@@ -23,22 +23,15 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware
+// Allow all origins in production (Vercel frontend)
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || '*',
   credentials: true,
 }));
 app.use(express.json());
 
-// Serve uploaded files as static assets
-// e.g. http://localhost:5000/uploads/videos/video-123.mp4
+// Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!', error: err.message });
-});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -52,6 +45,12 @@ app.get('/', (req, res) => {
   res.json({ message: 'YouTube Clone API is running', version: '1.0.0' });
 });
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!', error: err.message });
+});
+
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
 
@@ -60,7 +59,7 @@ mongoose
   .then(() => {
     console.log('✅ MongoDB connected');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {

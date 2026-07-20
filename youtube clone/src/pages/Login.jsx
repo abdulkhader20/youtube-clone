@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
+import API_URL from '../config/api'
 
 function Login() {
   const navigate = useNavigate()
-  const { login } = useAuth() // get the login function from context
+  const { login } = useAuth()
 
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
@@ -18,24 +19,16 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-    // Frontend validation
     if (!formData.email || !formData.password) {
       return setError('Email and password are required')
     }
-
     try {
       setLoading(true)
-      // Call backend login API
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post(`${API_URL}/api/auth/login`, {
         email: formData.email,
         password: formData.password
       })
-
-      // Save user + token in context and localStorage
       login(res.data.user, res.data.token)
-
-      // Redirect to home page
       navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed')
@@ -52,9 +45,7 @@ function Login() {
           <span style={{ color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '24px', marginLeft: '8px' }}>YouTube</span>
         </div>
         <h2 className="auth-title">Sign in to YouTube</h2>
-
         {error && <div className="auth-error">{error}</div>}
-
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '16px' }}>
             <label className="auth-label">Email</label>
@@ -70,7 +61,6 @@ function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
         <p className="auth-link-text">
           Don't have an account?{' '}
           <Link to="/register" className="auth-link">Sign Up</Link>

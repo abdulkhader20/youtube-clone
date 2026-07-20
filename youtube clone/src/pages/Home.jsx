@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import VideoCard from '../components/VideoCard'
+import API_BASE from '../config/api'
 
 const categories = [
   'All', 'Web Development', 'JavaScript',
@@ -44,7 +45,7 @@ function Home() {
       const params = {}
       if (searchQuery) params.search = searchQuery
       if (activeCategory !== 'All') params.category = activeCategory
-      const res = await axios.get('http://localhost:5000/api/videos', { params })
+      const res = await axios.get(`${API_BASE}/api/videos`, { params })
       setVideos(res.data)
     } catch (err) {
       console.error('Failed to fetch videos:', err.message)

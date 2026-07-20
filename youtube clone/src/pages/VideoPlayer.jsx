@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
+import API_URL from '../config/api'
 
 function VideoPlayer() {
   const { id } = useParams()
@@ -31,7 +32,7 @@ function VideoPlayer() {
   const fetchVideo = async () => {
     try {
       setLoading(true)
-      const res = await axios.get(`http://localhost:5000/api/videos/${id}`)
+      const res = await axios.get(`${API_URL}/api/videos/${id}`)
       const v = res.data
       setVideo(v)
       setLikes(v.likes.length)
@@ -50,7 +51,7 @@ function VideoPlayer() {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/comments/${id}`)
+      const res = await axios.get(`${API_URL}/api/comments/${id}`)
       setComments(res.data)
     } catch (err) {
       console.error('Failed to fetch comments')
@@ -62,7 +63,7 @@ function VideoPlayer() {
     if (!user) return alert('Please sign in to like videos')
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/videos/${id}/like`,
+        `${API_URL}/api/videos/${id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -80,7 +81,7 @@ function VideoPlayer() {
     if (!user) return alert('Please sign in to dislike videos')
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/videos/${id}/dislike`,
+        `${API_URL}/api/videos/${id}/dislike`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -102,7 +103,7 @@ function VideoPlayer() {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/comments/${id}`,
+        `${API_URL}/api/comments/${id}`,
         { text: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -123,7 +124,7 @@ function VideoPlayer() {
     if (!editText.trim()) return
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/comments/${commentId}`,
+        `${API_URL}/api/comments/${commentId}`,
         { text: editText },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -139,7 +140,7 @@ function VideoPlayer() {
     if (!window.confirm('Delete this comment?')) return
     try {
       await axios.delete(
-        `http://localhost:5000/api/comments/${commentId}`,
+        `${API_URL}/api/comments/${commentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       setComments(prev => prev.filter(c => c._id !== commentId))
